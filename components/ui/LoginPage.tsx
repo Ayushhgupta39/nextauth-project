@@ -5,8 +5,16 @@ import { Label } from "./label";
 import { cn } from "@/utils/cn";
 import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
 import { signIn } from "next-auth/react";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-export function LoginPage() {
+type Props = {
+  className?: string;
+  callbackUrl?: string;
+  error?: string;
+};
+
+export function LoginPage(props: Props) {
   const username = useRef<string>("");
   const password = useRef<any>("");
 
@@ -29,6 +37,18 @@ export function LoginPage() {
         Login with NextAuth here, with whatever method you find more convenient.
         Because that&apos;s what this project is made for.
       </p>
+
+      {!!props.error && (
+        <div className="text-white mt-4">
+          <Alert variant="destructive">
+            <ExclamationTriangleIcon className="h-4 w-4" />
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>
+              Incorrect email or password. Please try again.
+            </AlertDescription>
+          </Alert>
+        </div>
+      )}
 
       <form className="my-8" onSubmit={handleSubmit}>
         <LabelInputContainer className="mb-4">
